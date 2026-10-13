@@ -1,29 +1,30 @@
 class LinkedList<T>{
-    head : Node<T> | null;
-    tail : Node<T> | null;
-    size : number;
+    start : Node<T> | null;
+    end : Node<T> | null;
+    numNodes : number;
 
     constructor(){
-        this.head = null;
-        this.tail = null;
-        this.size = 0;
+        this.start = null;
+        this.end = null;
+        this.numNodes = 0;
     }
 
     append(val: T): void {
         let node = new Node<T>(val);
 
         // If empty
-        if (this.head === null && this.tail === null) {
-            this.head = node;
-            this.tail = node;
-            this.size++;
+        if (this.start === null && this.end === null) {
+            this.start = node;
+            this.end = node;
+            this.numNodes++;
             return;
         }
 
-        if (this.tail !== null) {
-            node.prev = this.tail;
-            this.tail.next = node;
-            this.size++;
+        if (this.end !== null) {
+            node.prev = this.end;
+            this.end.next = node;
+            this.end = node;
+            this.numNodes++;
         }
     }
 
@@ -31,19 +32,111 @@ class LinkedList<T>{
         let node = new Node<T>(val);
 
         // If empty
-        if (this.head === null && this.tail === null) {
-            this.head = node;
-            this.tail = node;
-            this.size++;
+        if (this.start === null && this.end === null) {
+            this.start = node;
+            this.end = node;
+            this.numNodes++;
             return;
         }
 
-        if (this.head !== null) {
-            node.next = this.head;
-            this.head.prev = node;
-            this.size++;
+        if (this.start !== null) {
+            node.next = this.start;
+            this.start.prev = node;
+            this.start = node;
+            this.numNodes++;
         }
     }
+
+    size(): number{
+        return this.numNodes;
+    }
+
+    head(): Node<T>|null {
+        return this.start;
+    }
+
+    tail(): Node<T>|null {
+        return this.end;
+    }
+
+    at(index: number): T|null {
+        if (index >= this.numNodes || index < 0) {
+            return null;
+        }
+
+        let temp: Node<T>|null = this.start;
+        if (temp === null) {
+            return null;
+        }
+
+        while (index > 0) {
+            if (temp === null) {
+                return null;
+            }
+            temp = temp.next;
+
+            index--;
+        }
+
+        if (temp === null) {
+            return null;
+        }
+        return temp.data;
+    }
+
+    pop(): T|null{
+        if (this.start === null && this.end === null) {
+            return null;
+        }
+
+        let temp: Node<T>|null = this.start;
+
+        if (temp === null) {
+            return null;
+        }
+
+        if (temp.next === null) {
+            this.start = null;
+            this.end = null;
+            this.numNodes = 0;
+        } else {
+            temp.next.prev = null;
+            this.start = temp.next;
+            this.numNodes--;
+        }
+
+        return temp.data;
+    }
+
+    contains(val: T) : boolean{
+        let temp: Node<T>|null = this.start;
+        if (temp === null) {
+            return false;
+        }
+
+        while (temp != null) {
+            if (temp === null) {
+                return false;
+            }
+
+            if (temp.data === val) {
+                return true;
+            }
+
+            temp = temp.next;
+        }
+
+        return false;
+    }
+
+    findIndex(){
+
+    }
+
+    toString(){
+
+    }
+
 }
 
 class Node<T>{
