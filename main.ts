@@ -1,9 +1,9 @@
-class LinkedList<T>{
-    start : Node<T> | null;
-    end : Node<T> | null;
-    numNodes : number;
+class LinkedList<T> {
+    start: Node<T> | null;
+    end: Node<T> | null;
+    numNodes: number;
 
-    constructor(){
+    constructor() {
         this.start = null;
         this.end = null;
         this.numNodes = 0;
@@ -47,24 +47,24 @@ class LinkedList<T>{
         }
     }
 
-    size(): number{
+    size(): number {
         return this.numNodes;
     }
 
-    head(): Node<T>|null {
-        return this.start;
+    head(): T| null {
+        return (this.start == null)? null : this.start.data;
     }
 
-    tail(): Node<T>|null {
-        return this.end;
+    tail(): T | null {
+        return (this.end == null)? null : this.end.data;
     }
 
-    at(index: number): T|null {
+    at(index: number): T | null {
         if (index >= this.numNodes || index < 0) {
             return null;
         }
 
-        let temp: Node<T>|null = this.start;
+        let temp: Node<T> | null = this.start;
         if (temp === null) {
             return null;
         }
@@ -84,12 +84,12 @@ class LinkedList<T>{
         return temp.data;
     }
 
-    pop(): T|null{
+    pop(): T | null {
         if (this.start === null && this.end === null) {
             return null;
         }
 
-        let temp: Node<T>|null = this.start;
+        let temp: Node<T> | null = this.start;
 
         if (temp === null) {
             return null;
@@ -108,17 +108,13 @@ class LinkedList<T>{
         return temp.data;
     }
 
-    contains(val: T) : boolean{
-        let temp: Node<T>|null = this.start;
+    contains(val: T): boolean {
+        let temp: Node<T> | null = this.start;
         if (temp === null) {
             return false;
         }
 
         while (temp != null) {
-            if (temp === null) {
-                return false;
-            }
-
             if (temp.data === val) {
                 return true;
             }
@@ -129,22 +125,32 @@ class LinkedList<T>{
         return false;
     }
 
-    findIndex(){
+    findIndex(val: T): number {
+        let temp: Node<T> | null = this.start;
+        if (temp === null) {
+            return -1;
+        }
 
-    }
+        let index: number = 0;
+        while (temp != null) {
+            if (temp.data === val) {
+                return index;
+            }
 
-    toString(){
-
+            temp = temp.next;
+            index++;
+        }
+        return -1;
     }
 
 }
 
-class Node<T>{
+class Node<T> {
     prev: Node<T> | null;
     next: Node<T> | null;
     data: T;
 
-    constructor(val: T){
+    constructor(val: T) {
         this.prev = null;
         this.next = null;
         this.data = val;
